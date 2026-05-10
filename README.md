@@ -66,8 +66,74 @@ doesn't match how real DNS names look.
 
 ## Status
 
-Initial package skeleton.  The implementation lands incrementally;
-see `CHANGELOG.md`.
+Initial public release (`0.1.0.0`).  Full IDNA2008 parser, per-label
+classification, three rendering paths (Unicode, lax Unicode, ASCII),
+RFC 5895 input mappings, and RFC 5893 Bidi rules (per-label and
+cross-label).  Conformance suite of 140+ JSON test vectors in
+`tests/` is published with a documented schema so ports to other
+languages can reuse the fixtures.  See `CHANGELOG.md` for the
+feature list.
+
+## Demo
+
+Given the below `demo.hs`:
+```haskell
+{-# LANGUAGE OverloadedStrings #-}
+module Main(main) where
+import qualified Data.Text.IO as T
+import Text.IDNA2008
+
+main :: IO()
+main = do
+    -- Print A-label form
+    mapM_ ascOut $ mkDomain "αβγ.gr"
+    -- Print U-label form
+    mapM_ uniOut $ mkDomain "αβγ.gr"
+    -- Print A-label + U-label forms and label types:
+    mapM_ dump $ parseDomain allLabelForms "_25._tcp.*.\\097bc.αβγ.gr"
+    -- An invalid domain, with code point 95 ('_') in the second label.
+    -- Only LDH ASCII characters can appear in a U-label.  The offset
+    -- within that label is non-specific because it may have gone
+    -- through some "mappings" that mask the real byte offset.
+    print $ parseDomain idnLabelForms "foo.αβ_γδ.gr"
+  where
+    ascOut, uniOut :: Domain -> IO ()
+    ascOut = T.putStrLn . domainToAscii
+    uniOut = T.putStrLn . domainToUnicode
+    dump (dom, inf) = do
+        ascOut dom
+        uniOut dom
+        print inf
+```
+Compiling and running it:
+```sh
+# build the library
+$ cabal -v0 -j12 build
+# determine full GHC version
+$ gv=$(
+    printf '%s\n%s\n%s\n%s\n' \
+        'import System.Info' \
+        'import Data.Version' \
+        'vb = versionBranch fullCompilerVersion'
+        'putStrLn $ Data.List.intercalate "." $ map show vb' |
+    ghci -v0)
+# Compile demo program (low-level bypassing Cabal)
+$ ghc -v0 -package-db dist-newstyle/packagedb/ghc-$gv \
+      -package-db ~/.cabal/store/ghc-$gv-inplace/package.db \
+      -package primitive -package idna2008 \
+      demo.hs
+# Run it
+$ ./demo
+```
+we get the below output:
+```
+xn--mxacd.gr
+αβγ.gr
+_25._tcp.*.abc.xn--mxacd.gr
+_25._tcp.*.abc.αβγ.gr
+[ATTRLEAF,ATTRLEAF,WILDLABEL,OCTET,ULABEL,LDH]
+Left (ErrLabelInvalid (IdnaLoc {idnaLabelIndex = 1}) (DisallowedCodepoint 95))
+```
 
 ## License
 
