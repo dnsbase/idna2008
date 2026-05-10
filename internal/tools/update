@@ -5,6 +5,8 @@
 #   * The library's table modules under
 #     internal/Text/IDNA2008/Internal/*/Data.hs (Property, NFC,
 #     Joining, Script, Width, Case, Bidi, Combining, Emoji).
+#   * The UTS #46 reference data the `unicode-conformance` test
+#     suite consults, bundled XZ-compressed under tests/data/.
 #
 # Usage:
 #     internal/tools/update [<unicode-version>]
@@ -71,6 +73,15 @@ DERIVED_BIDI_CLASS_URL="${UCD_BASE}/extracted/DerivedBidiClass.txt"
 EMOJI_UCD_URL="${UCD_BASE}/emoji/emoji-data.txt"
 EMOJI_LEGACY_URL="https://www.unicode.org/Public/emoji/%s/emoji-data.txt"
 
+# UTS #46 reference data used by the `unicode-conformance` test suite.
+# The Unicode Consortium reorganised the IDNA data-file layout at
+# Unicode 17.0.0 -- for >=17 the files live alongside the main UCD
+# at /Public/<ver>/idna/, for <=16 at /Public/idna/<ver>/, and the
+# /Public/idna/latest/ symlink continues to track the most-recently
+# published version regardless of layout.
+UTS46_NEW_BASE="https://www.unicode.org/Public/%s/idna"
+UTS46_OLD_BASE="https://www.unicode.org/Public/idna/%s"
+
 #-----------------------------------------------------------------------
 # Compute concrete URLs and output paths.
 #-----------------------------------------------------------------------
@@ -100,6 +111,36 @@ case "$VERSION" in
         ;;
 esac
 
+# Decide which UTS #46 layout to use based on the version's major
+# component.  Versions >= 17 use the new under-UCD layout; older
+# versions use /Public/idna/<ver>/.  An explicit "latest" value
+# resolves through the symlink.
+uts46_major=${VERSION%%.*}
+case "$VERSION" in
+    latest)
+        uts46_test_url="https://www.unicode.org/Public/idna/latest/IdnaTestV2.txt"
+        uts46_map_url="https://www.unicode.org/Public/idna/latest/IdnaMappingTable.txt"
+        ;;
+    *)
+        case "$uts46_major" in
+            ''|*[!0-9]*)
+                uts46_base=$(printf "$UTS46_OLD_BASE" "$VERSION")
+                ;;
+            *)
+                if [ "$uts46_major" -ge 17 ]; then
+                    uts46_base=$(printf "$UTS46_NEW_BASE" "$VERSION")
+                else
+                    uts46_base=$(printf "$UTS46_OLD_BASE" "$VERSION")
+                fi
+                ;;
+        esac
+        uts46_test_url="${uts46_base}/IdnaTestV2.txt"
+        uts46_map_url="${uts46_base}/IdnaMappingTable.txt"
+        ;;
+esac
+
+TESTS_DATA_DIR="${SCRIPT_DIR}/../../tests/data"
+
 #-----------------------------------------------------------------------
 # Fetch all sources to a scratch dir, then run each generator.
 #-----------------------------------------------------------------------
@@ -114,17 +155,19 @@ fetch() {
          --output "$WORK/$2" "$1"
 }
 
-fetch "$unidata_url"   UnicodeData.txt
-fetch "$compex_url"    CompositionExclusions.txt
-fetch "$dcp_url"       DerivedCoreProperties.txt
-fetch "$nfcprops_url"  DerivedNormalizationProps.txt
-fetch "$plist_url"     PropList.txt
-fetch "$hst_url"       HangulSyllableType.txt
-fetch "$scripts_url"   Scripts.txt
-fetch "$jt_url"        DerivedJoiningType.txt
-fetch "$ccc_url"       DerivedCombiningClass.txt
-fetch "$bidi_url"      DerivedBidiClass.txt
-fetch "$emoji_url"     emoji-data.txt
+fetch "$unidata_url"    UnicodeData.txt
+fetch "$compex_url"     CompositionExclusions.txt
+fetch "$dcp_url"        DerivedCoreProperties.txt
+fetch "$nfcprops_url"   DerivedNormalizationProps.txt
+fetch "$plist_url"      PropList.txt
+fetch "$hst_url"        HangulSyllableType.txt
+fetch "$scripts_url"    Scripts.txt
+fetch "$jt_url"         DerivedJoiningType.txt
+fetch "$ccc_url"        DerivedCombiningClass.txt
+fetch "$bidi_url"       DerivedBidiClass.txt
+fetch "$emoji_url"      emoji-data.txt
+fetch "$uts46_test_url" IdnaTestV2.txt
+fetch "$uts46_map_url"  IdnaMappingTable.txt
 
 # Derive the IDNA disposition CSV locally per RFC 5892, then feed
 # it into the existing CSV-to-Haskell generator.
@@ -185,5 +228,34 @@ run "${IDNA_DIR}/Emoji/Data.hs" \
     "$PYTHON" "${SCRIPT_DIR}/genIdnaEmoji.py" \
         "$VERSION" "$WORK/emoji-data.txt" "$WORK/IdnaMappingTable.txt"
 
+#-----------------------------------------------------------------------
+# Bundle the UTS #46 reference data for the `unicode-conformance` test
+# suite.  The files are committed gzip-compressed under tests/data/
+# and unpacked at test time by Codec.Compression.GZip, so 'cabal
+# test' runs offline without a .cache/ directory or network
+# dependency.  Gzip (rather than xz) keeps the build deps to the
+# Haskell @zlib@ package, which ships everywhere and doesn't need a
+# pkg-config dance to find a system C library.
+#-----------------------------------------------------------------------
+
+mkdir -p "$TESTS_DATA_DIR"
+
+bundle() {
+    # $1 = source filename in $WORK; $2 = destination basename in
+    # $TESTS_DATA_DIR (the .gz extension is appended).  The @-n@
+    # flag suppresses the original filename and mtime from the gzip
+    # header so that re-running @update@ against the same source
+    # bytes produces a byte-identical output -- no spurious diffs
+    # in the committed tree after a no-op regeneration.
+    src="$WORK/$1"
+    dst="${TESTS_DATA_DIR}/$2.gz"
+    echo "bundling: $dst"
+    gzip -9 -n -c "$src" > "$dst"
+}
+
+bundle IdnaTestV2.txt       IdnaTestV2.txt
+bundle IdnaMappingTable.txt IdnaMappingTable.txt
+
 echo
 echo "All auto-generated IDNA tables are now aligned with Unicode $VERSION."
+echo "UTS #46 conformance data refreshed under ${TESTS_DATA_DIR}/."

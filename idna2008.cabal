@@ -1,13 +1,13 @@
-cabal-version: 3.12
+cabal-version: 3.8
 
 name:           idna2008
-version:        0.1.0.0
+version:        1.0.0.0
 synopsis:       Strict IDNA2008 for Haskell
 description:
-    A Haskell library for parsing and validating internationalized
-    domain names -- names that may contain characters from
-    non-Latin scripts (Greek, Hebrew, Arabic, CJK, ...) alongside
-    the conventional letters, digits, and hyphens.
+    A Haskell library for parsing and validating internationalized domain
+    names, which may contain characters from non-Latin scripts (Greek,
+    Hebrew, Arabic, CJK, ...) alongside the conventional letters, digits,
+    and hyphens.
     .
     Given a domain name as the user typed it, the library checks
     that every label is well-formed, encodes any non-ASCII labels
@@ -40,9 +40,14 @@ copyright:      2026 Viktor Dukhovni
 license:        BSD-3-Clause
 license-file:   LICENSE
 category:       Text
+homepage:       https://github.com/dnsbase/idna2008
+bug-reports:    https://github.com/dnsbase/idna2008/issues
 build-type:     Simple
-tested-with: GHC == 9.10.3
+tested-with: GHC == 9.6.7
+           , GHC == 9.8.4
+           , GHC == 9.10.3
            , GHC == 9.12.3
+           , GHC == 9.14.1
 
 -- The Unicode version the library's generated tables track.  This is
 -- the single source of truth: 'internal/tools/update' uses it as the
@@ -58,6 +63,37 @@ extra-doc-files:
     CHANGELOG.md
     README.md
 
+-- Gzip-compressed snapshots of the UTS #46 reference data the
+-- 'unicode-conformance' test suite consults.  Bundled in the source
+-- distribution so 'cabal test' has no network dependency.  The
+-- 'internal/tools/update' script regenerates these whenever the
+-- 'x-unicode-version' field above is bumped.  Gzip is used rather
+-- than xz so that the test suite can rely on the Haskell @zlib@
+-- package (which ships everywhere) rather than @lzma@ (which needs
+-- the liblzma C library wired up through pkg-config).
+extra-source-files:
+    internal/tools/genIdnaBidi.py
+    internal/tools/genIdnaCombining.py
+    internal/tools/genIdnaDerive.py
+    internal/tools/genIdnaEmoji.py
+    internal/tools/genIdnaJoining.py
+    internal/tools/genIdnaNFC.py
+    internal/tools/genIdnaNFCTables.py
+    internal/tools/genIdnaProperty.py
+    internal/tools/genIdnaScript.py
+    internal/tools/genIdnaSimpleLower.py
+    internal/tools/genIdnaWidth.py
+    internal/tools/update
+    tests/data/idna-test-v2-expected-diffs.txt
+    tests/data/IdnaMappingTable.txt.gz
+    tests/data/IdnaTestV2.txt.gz
+    tests/README.md
+    tests/vectors.json
+
+source-repository head
+    type:     git
+    location: https://github.com/dnsbase/idna2008.git
+
 common all
   ghc-options: -O2 -Wall
   default-language: GHC2021
@@ -70,11 +106,11 @@ common all
 
 common deps
   build-depends:
-      base >= 4.18 && < 5
-    , bytestring
-    , primitive
-    , template-haskell
-    , text
+      base >=4.18 && <5
+    , bytestring >=0.11 && <0.13
+    , primitive >=0.9 && <0.10
+    , template-haskell >=2.20 && <2.25
+    , text >=2.0 && <2.2
 
 -- Narrowly-scoped private sublibrary holding only
 -- 'Text.IDNA2008.Internal.Punycode'.  Its sole reason for
@@ -100,6 +136,9 @@ library
   build-depends:
       idna2008:punycode-internal
   exposed-modules:
+    Text.IDNA2008
+    Text.IDNA2008.Wire
+  other-modules:
     Text.IDNA2008.Internal.Bidi
     Text.IDNA2008.Internal.Bidi.Data
     Text.IDNA2008.Internal.Case
@@ -141,7 +180,54 @@ test-suite punycode
   type: exitcode-stdio-1.0
   hs-source-dirs: tests
   main-is: punycode.hs
+  -- @idna2008@ is listed here even though the test only imports
+  -- from @idna2008:punycode-internal@.  Without this fictional
+  -- dependency, building under @--enable-coverage@ races: Cabal
+  -- starts linking the punycode test before it has finished
+  -- building (and registering) the main library, which the
+  -- coverage-instrumented test links against by way of HPC's
+  -- cross-component tixing.  Listing @idna2008@ explicitly forces
+  -- the build order, so a clean coverage build works on the first
+  -- attempt without needing a separate 'cabal build all' pass.
   build-depends:
-      idna2008:punycode-internal
+      idna2008
+    , idna2008:punycode-internal
+    , tasty >=1.5 && <1.6
+    , tasty-hunit >=0.10 && <0.11
+
+-- Unicode @IdnaTestV2.txt@ conformance suite.  Reads
+-- XZ-compressed snapshots of the UTS \#46 reference data bundled
+-- under @tests/data/@ (see 'extra-source-files') so 'cabal test'
+-- runs offline.  Known systematic disagreements between strict
+-- IDNA2008 and UTS #46 Nontransitional are listed in
+-- @tests\/data\/idna-test-v2-expected-diffs.txt@; an additional
+-- auto-skip uses @IdnaMappingTable.txt@ to identify codepoints
+-- where UTS \#46's preprocessing legitimately differs from strict
+-- IDNA2008.  An @IDNA_TEST_V2_FILE@\/@IDNA_MAPPING_TABLE_FILE@
+-- environment variable can point at an uncompressed local copy
+-- to test against a different Unicode version without re-bundling.
+test-suite unicode-conformance
+  import: all, deps
+  type: exitcode-stdio-1.0
+  hs-source-dirs: tests
+  main-is: unicode_conformance.hs
+  build-depends:
+      idna2008
+    , idna2008:punycode-internal
+    , containers >=0.6 && <0.9
+    , directory >=1.0 && <1.4
+    , tasty >=1.5 && <1.6
+    , tasty-hunit >=0.10 && <0.11
+    , zlib >=0.6 && <0.8
+
+test-suite conformance
+  import: all, deps
+  type: exitcode-stdio-1.0
+  hs-source-dirs: tests
+  main-is: conformance.hs
+  build-depends:
+      idna2008
+    , idna2008:punycode-internal
+    , aeson >=2.2 && <2.4
     , tasty >=1.5 && <1.6
     , tasty-hunit >=0.10 && <0.11

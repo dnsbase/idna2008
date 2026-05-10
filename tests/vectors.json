@@ -1,0 +1,2794 @@
+{
+  "version": 1,
+  "description": "Conformance vectors for the idna2008 library. Hand-curated initial set; expand by adding more cases as the implementation evolves and as ports to other languages turn up edge cases worth pinning.",
+  "tests": [
+    {
+      "name": "ldh-three-labels",
+      "input": "www.example.com",
+      "classes": "ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "03777777076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ldh-name-at-max-length",
+      "input": "a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a",
+      "classes": "ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016101610161016100",
+          "classes": [
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ldh-with-digits-and-hyphen",
+      "input": "abc-123.example",
+      "classes": "ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "076162632d313233076578616d706c6500",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "wild-label-prefix",
+      "input": "*.example.com",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "012a076578616d706c6503636f6d00",
+          "classes": [
+            "WILDLABEL",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "attrleaf-dmarc",
+      "input": "_dmarc.example.com",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "065f646d617263076578616d706c6503636f6d00",
+          "classes": [
+            "ATTRLEAF",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "attrleaf-srv-style",
+      "input": "_25._tcp.example.com",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "035f3235045f746370076578616d706c6503636f6d00",
+          "classes": [
+            "ATTRLEAF",
+            "ATTRLEAF",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "leading-hyphen-as-octet",
+      "input": "-foo.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "042d666f6f076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "trailing-hyphen-as-octet",
+      "input": "foo-.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "04666f6f2d076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "empty-label-middle",
+      "input": "foo..bar",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrEmptyLabel",
+          "labelIndex": 1
+        }
+      }
+    },
+    {
+      "name": "leading-hyphen-rejected-by-hostname-set",
+      "input": "-foo.example",
+      "classes": "host",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "trailing-hyphen-rejected-by-hostname-set",
+      "input": "foo-.example",
+      "classes": "host",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "attrleaf-rejected-by-hostname-set",
+      "input": "_dmarc.example",
+      "classes": "host",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "wildcard-rejected-by-hostname-set",
+      "input": "*.example",
+      "classes": "host",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "leading-digit-with-rtl-rejected",
+      "input": "0\u05d0\u05d1.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "LabelBidi",
+          "rule": "BidiRule1FirstNotLRAL",
+          "labelIndex": 0
+        }
+      },
+      "flags": "alabel-check,bidi-check"
+    },
+    {
+      "name": "empty",
+      "input": "",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "00",
+          "classes": []
+        }
+      }
+    },
+    {
+      "name": "lone-dot",
+      "input": ".",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "00",
+          "classes": []
+        }
+      }
+    },
+    {
+      "name": "double-dot",
+      "input": "..",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrEmptyLabel"
+        }
+      }
+    },
+    {
+      "name": "leading-dot",
+      "input": ".foo",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrEmptyLabel"
+        }
+      }
+    },
+    {
+      "name": "label-63-bytes-ok",
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "classes": "ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "3f61616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616161616100",
+          "classes": [
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "label-64-bytes-too-long",
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelTooLong",
+          "labelIndex": 0,
+          "length": 64
+        }
+      }
+    },
+    {
+      "name": "ldh-trailing-dot",
+      "input": "example.com.",
+      "classes": "ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "attrleaf-not-allowed-by-idnForms",
+      "input": "_25._tcp.example.com",
+      "classes": "idn",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "r-ldh",
+      "input": "l---l.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "056c2d2d2d6c076578616d706c6500",
+          "classes": [
+            "RLDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "r-ldh-multi-letter-tag",
+      "input": "cd--storage-shelves.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "1363642d2d73746f726167652d7368656c766573076578616d706c6500",
+          "classes": [
+            "RLDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "decimal-escape",
+      "input": "f\\111oba.r",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "05666f6f6261017200",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "non-octet-with-non-ldh-ascii",
+      "input": "χν_foo.example.com",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid"
+        }
+      }
+    },
+    {
+      "name": "u-label-double-hyphen-3-4-rejected",
+      "input": "αβ--γδ.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "ldh-name-too-long",
+      "input": "a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a.a",
+      "classes": "ldh",
+      "expect": {
+        "err": {
+          "kind": "ErrNameTooLong",
+          "length": 257
+        }
+      }
+    },
+    {
+      "name": "wildcard-leaf",
+      "input": "*.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "012a076578616d706c6500",
+          "classes": [
+            "WILDLABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "wildcard-rejected-by-idnForms",
+      "input": "*.example",
+      "classes": "idn",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "wildcard-allowed-by-explicit-set",
+      "input": "*.example",
+      "classes": "wildlabel,ldh",
+      "expect": {
+        "ok": {
+          "wireHex": "012a076578616d706c6500",
+          "classes": [
+            "WILDLABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "asterisk-among-others-is-octet",
+      "input": "*foo.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "042a666f6f076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "two-asterisks-is-octet",
+      "input": "**.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "022a2a076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "all-specials-escaped-octet",
+      "input": "\"$()\\.;@\\\\foo.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0b222428292e3b405c666f6f076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "\\\"\\$\\(\\)\\.\\;\\@\\\\foo.example",
+          "displayFormLax": "\\\"\\$\\(\\)\\.\\;\\@\\\\foo.example",
+          "displayFormAscii": "\\\"\\$\\(\\)\\.\\;\\@\\\\foo.example"
+        }
+      }
+    },
+    {
+      "name": "escaped-star-is-wildlabel",
+      "input": "\\*.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "012a076578616d706c6500",
+          "classes": [
+            "WILDLABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "decimal-escaped-star-is-wildlabel",
+      "input": "\\042.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "012a076578616d706c6500",
+          "classes": [
+            "WILDLABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a-label-input",
+      "input": "xn--mnchen-3ya.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-label-encode-latin1",
+      "input": "münchen.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "real-a-label",
+      "input": "xn--mnchen-3ya.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "fake-a-label-disallowed-codepoint",
+      "input": "xn--a.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "05786e2d2d61076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "loose-mode-classifies-as-alabel",
+      "input": "xn--a.example",
+      "classes": "all",
+      "flags": "",
+      "expect": {
+        "ok": {
+          "wireHex": "05786e2d2d61076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "fake-a-rejected-by-idnForms",
+      "input": "xn--a.example",
+      "classes": "idn",
+      "flags": "alabel-check",
+      "expect": {
+        "err": {
+          "kind": "ErrAceInvalid",
+          "labelIndex": 0,
+          "reason": "DecodedInvalid",
+          "innerReason": "DisallowedCodepoint",
+          "codepoint": 128
+        }
+      }
+    },
+    {
+      "name": "fake-a-emoji",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "strict-nfc-ascii-passes",
+      "input": "example.com",
+      "classes": "all",
+      "flags": "alabel-check,nfc-check",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "strict-nfc-precomposed-latin1-passes",
+      "input": "münchen.example",
+      "classes": "all",
+      "flags": "alabel-check,nfc-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "strict-nfc-decomposed-rejected",
+      "input": "a\u0301.example",
+      "classes": "all",
+      "flags": "alabel-check,nfc-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "NotNFC"
+        }
+      }
+    },
+    {
+      "name": "default-nfc-decomposed-passes",
+      "input": "a\u0301.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d612d786262076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a3-middle-dot-l-l",
+      "input": "l·l.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d6c6c2d306561076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a3-middle-dot-leading",
+      "input": "·l.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 183,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a3-middle-dot-trailing",
+      "input": "l·.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 183,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a3-middle-dot-bad-neighbours",
+      "input": "x·y.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 183,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a4-greek-numeral-followed-by-greek",
+      "input": "͵α.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d777661346a076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a4-greek-numeral-trailing",
+      "input": "α͵.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 885,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a4-greek-numeral-followed-by-non-greek",
+      "input": "͵a.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 885,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a5-hebrew-geresh-after-hebrew",
+      "input": "\u05d0\u05f3.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d3464623465076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a5-hebrew-geresh-leading",
+      "input": "\u05f3\u05d0.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 1523,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a6-hebrew-gershayim-after-hebrew",
+      "input": "\u05d0\u05f4.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d3464623665076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a6-hebrew-gershayim-after-non-hebrew",
+      "input": "a\u05f4.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 1524,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a7-katakana-middle-dot-with-hiragana",
+      "input": "あ・あ.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0b786e2d2d6c386a61383663076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a7-katakana-middle-dot-with-han",
+      "input": "一・一.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0d786e2d2d76656b373638666261076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a7-katakana-middle-dot-alone",
+      "input": "・.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 12539,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a7-katakana-middle-dot-without-hkh",
+      "input": "a・b.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 12539,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a8-arabic-indic-pure",
+      "input": "\u0660\u0661.example",
+      "classes": "all",
+      "flags": "",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d38686263076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a9-extended-arabic-indic-pure",
+      "input": "\u06f0\u06f1.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d646d6263076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a8-a9-mixed-rejected",
+      "input": "\u0660\u06f0.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 1632,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a2-zwj-after-virama",
+      "input": "\u0915\u094d\u200d\u0936.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0f786e2d2d313162306532637639336a076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-after-virama",
+      "input": "\u0915\u094d\u200c\u0936.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0f786e2d2d313162306532637239336a076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-d-d",
+      "input": "\u0644\u200c\u0644.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0c786e2d2d6768626133313971076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-with-transparents",
+      "input": "\u0644\u064b\u200c\u064b\u0644.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0f786e2d2d6768626175613837303461076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "a2-zwj-without-virama",
+      "input": "\u0915\u200d\u0936.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 8205,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a2-zwj-leading",
+      "input": "\u200d\u0915.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 8205,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-no-context",
+      "input": "a\u200cb.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 8204,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-half-context",
+      "input": "\u0644\u200cb.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 8204,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "a1-zwnj-leading",
+      "input": "\u200c\u0644.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "ContextRule",
+          "codepoint": 8204,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "default-rejects-emoji-cp",
+      "input": "💩.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 128169,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "allow-emoji-admits-pile-of-poo",
+      "input": "💩.example",
+      "classes": "all",
+      "flags": "emoji-ok",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "+emoji-ok",
+            "ok": "💩.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "allow-emoji-still-rejects-euro-sign",
+      "input": "€.example",
+      "classes": "all",
+      "flags": "emoji-ok",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 8364,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "strict-alabel-with-allow-emoji-classifies-alabel",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "flags": "alabel-check,emoji-ok",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "strict-alabel-without-allow-emoji-classifies-fakea",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-3002-rejected-without-mapdots",
+      "input": "abc。def",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 12290,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "u-3002-separates-with-mapdots",
+      "input": "abc。def",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656600",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-ff0e-separates-with-mapdots",
+      "input": "abc．def",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656600",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-ff61-separates-with-mapdots",
+      "input": "abc｡def",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656600",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-3002-trailing-with-mapdots",
+      "input": "abc。",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "0361626300",
+          "classes": [
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-3002-alone-is-root-with-mapdots",
+      "input": "。",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "00",
+          "classes": []
+        }
+      }
+    },
+    {
+      "name": "mixed-separators-with-mapdots",
+      "input": "abc。def．ghi.jkl",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656603676869036a6b6c00",
+          "classes": [
+            "LDH",
+            "LDH",
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "escaped-u-3002-rejected-with-mapdots",
+      "input": "abc\\。def",
+      "classes": "all",
+      "flags": "map-dots",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape"
+        }
+      }
+    },
+    {
+      "name": "mapnfc-normalizes-decomposed",
+      "input": "a\u0301.example",
+      "classes": "all",
+      "flags": "alabel-check,nfc-check,map-nfc",
+      "expect": {
+        "ok": {
+          "wireHex": "07786e2d2d316361076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapnfc-normalizes-without-strict",
+      "input": "a\u0301.example",
+      "classes": "all",
+      "flags": "alabel-check,map-nfc",
+      "expect": {
+        "ok": {
+          "wireHex": "07786e2d2d316361076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapnfc-precomposed-passthrough",
+      "input": "á.example",
+      "classes": "all",
+      "flags": "alabel-check,map-nfc",
+      "expect": {
+        "ok": {
+          "wireHex": "07786e2d2d316361076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapnfc-ldh-passthrough",
+      "input": "example.com",
+      "classes": "all",
+      "flags": "alabel-check,map-nfc",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "default-preserves-ascii-case",
+      "input": "EXAMPLE.com",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "074558414d504c4503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapcase-lowercases-ascii-ldh",
+      "input": "EXAMPLE.com",
+      "classes": "all",
+      "flags": "alabel-check,map-case",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapcase-lowercases-xn-prefix",
+      "input": "XN--mnchen-3ya.example",
+      "classes": "all",
+      "flags": "alabel-check,map-case",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "default-rejects-uppercase-in-ulabel",
+      "input": "München.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 77,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "mapcase-admits-mixed-case-ulabel",
+      "input": "München.example",
+      "classes": "all",
+      "flags": "alabel-check,map-case",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapcase-lowercases-nonascii",
+      "input": "Übung.example",
+      "classes": "all",
+      "flags": "alabel-check,map-case",
+      "expect": {
+        "ok": {
+          "wireHex": "0c786e2d2d62756e672d7a7261076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapcase-matches-lowercase-input",
+      "input": "übung.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0c786e2d2d62756e672d7a7261076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapwidth-fullwidth-latin-equals-ascii",
+      "input": "ａｂｃ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-case,map-width",
+      "expect": {
+        "ok": {
+          "wireHex": "03616263076578616d706c6500",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapwidth-halfwidth-katakana",
+      "input": "ｱｲｳ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d63636b6567076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapwidth-fullwidth-katakana-baseline",
+      "input": "アイウ.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d63636b6567076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayForm": "アイウ.example",
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "ok": "アイウ.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "mapwidth-implies-mapdots-fullwidth-period",
+      "input": "abc．def",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656600",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "mapwidth-implies-mapdots-halfwidth-period",
+      "input": "abc｡def",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "ok": {
+          "wireHex": "036162630364656600",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "default-rejects-fullwidth-period",
+      "input": "abc．def",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 65294,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "mapwidth-rejects-non-ldh-ascii-result",
+      "input": "ａｂ＿ｃ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 95,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "mapwidth-rejects-leading-hyphen-result",
+      "input": "－ａｂｃ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "HyphenViolation",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "mapwidth-rejects-trailing-hyphen-result",
+      "input": "ａｂｃ－.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "HyphenViolation",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "mapwidth-rejects-hy34-result",
+      "input": "ａｂ－－ｃｄ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "HyphenViolation",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "default-fullwidth-underscore-input-rejected",
+      "input": "ａｂ＿ｃ.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 65345,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "default-fullwidth-hy34-input-rejected",
+      "input": "ａｂ－－ｃｄ.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 65345,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "ltr-only-no-trigger",
+      "input": "café.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0b786e2d2d6361662d646d61076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "rtl-pure-hebrew-ok",
+      "input": "\u05d0\u05d1\u05d2.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayForm": "\u05d0\u05d1\u05d2.example"
+        }
+      }
+    },
+    {
+      "name": "rtl-pure-arabic-ok",
+      "input": "\u0627\u0628.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6d676263076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayForm": "\u0627\u0628.example"
+        }
+      }
+    },
+    {
+      "name": "rtl-with-l-rejected-with-checkbidi",
+      "input": "\u05d0a\u05d1.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "LabelBidi",
+          "rule": "BidiRule2RTLDisallowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "rtl-with-l-ok-without-checkbidi",
+      "input": "\u05d0a\u05d1.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d612d7a686365076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "rtl-en-an-mix-rejected",
+      "input": "\u05d00\u0660.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "LabelBidi",
+          "rule": "BidiRule4ENANMix",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "ltr-with-rtl-content-rejected",
+      "input": "a\u05d0.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "LabelBidi",
+          "rule": "BidiRule5LTRDisallowed",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "rtl-trailing-nsm-ok",
+      "input": "\u05d0\u05d1\u05b0.example",
+      "classes": "all",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d376362376464076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "ldh-passthrough",
+      "input": "example.com",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ],
+          "displayForm": "example.com"
+        }
+      }
+    },
+    {
+      "name": "real-a-label-decodes",
+      "input": "xn--mnchen-3ya.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ],
+          "displayForm": "münchen.example"
+        }
+      }
+    },
+    {
+      "name": "u-label-input-round-trips",
+      "input": "münchen.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayForm": "münchen.example"
+        }
+      }
+    },
+    {
+      "name": "fake-a-passthrough-control",
+      "input": "xn--a.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "05786e2d2d61076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayForm": "xn--a.example"
+        }
+      }
+    },
+    {
+      "name": "fake-a-passthrough-emoji",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayForm": "xn--ls8h.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-escapes-dot",
+      "input": "xn--foo\\.bar.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0b786e2d2d666f6f2e626172076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "xn--foo\\.bar.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-escapes-backslash",
+      "input": "a\\\\b.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "03615c62076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "a\\\\b.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-escapes-at-sign",
+      "input": "foo\\@bar.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "07666f6f40626172076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "foo\\@bar.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-escapes-control-byte",
+      "input": "a\\009b!.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0461096221076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "a\\009b!.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-escapes-high-byte",
+      "input": "a\\252b!.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0461fc6221076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "a\\252b!.example"
+        }
+      }
+    },
+    {
+      "name": "passthrough-domain-bytes-not-utf8-decoded",
+      "input": "a\\195\\188b!.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0561c3bc6221076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "a\\195\\188b!.example"
+        }
+      }
+    },
+    {
+      "name": "lax-real-a-label",
+      "input": "xn--mnchen-3ya.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ],
+          "displayFormLax": "münchen.example"
+        }
+      }
+    },
+    {
+      "name": "lax-fake-a-emoji-shows-codepoint",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayFormLax": "💩.example"
+        }
+      }
+    },
+    {
+      "name": "lax-fake-a-control-shows-codepoint",
+      "input": "xn--a.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "05786e2d2d61076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayFormLax": "\u0080.example"
+        }
+      }
+    },
+    {
+      "name": "xn-prefix-with-non-ldh-ascii-inside-punycode-body",
+      "input": "xn--foo$bar--e6a.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "10786e2d2d666f6f246261722d2d653661076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ],
+          "displayForm": "xn--foo\\$bar--e6a.example",
+          "displayFormLax": "xn--foo\\$bar--e6a.example",
+          "displayFormAscii": "xn--foo\\$bar--e6a.example"
+        }
+      }
+    },
+    {
+      "name": "lax-bad-punycode-falls-back",
+      "input": "xn---hgi.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d2d686769076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayFormLax": "xn---hgi.example"
+        }
+      }
+    },
+    {
+      "name": "lax-non-ace-label-passthrough",
+      "input": "example.com",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ],
+          "displayFormLax": "example.com"
+        }
+      }
+    },
+    {
+      "name": "nocheck-plain-ldh",
+      "input": "example.com.",
+      "classes": "host",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "",
+            "ok": "example.com"
+          }
+        }
+      }
+    },
+    {
+      "name": "nocheck-ace-decodes",
+      "input": "xn--mnchen-3ya.example.",
+      "classes": "host",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "",
+            "ok": "münchen.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "check-pure-latin-ok",
+      "input": "xn--mnchen-3ya.example.",
+      "classes": "host",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "ok": "münchen.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "check-pure-hebrew-ok",
+      "input": "\u05d0\u05d1\u05d2.example.",
+      "classes": "host",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "ok": "\u05d0\u05d1\u05d2.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "check-attrleaf-alongside-rtl-rejected",
+      "input": "_tcp.\u05d0\u05d1\u05d2.example.",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "045f74637009786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "ATTRLEAF",
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "err": {
+              "kind": "ErrCrossLabelBidi",
+              "labelIndex": 0,
+              "rule": "BidiRule1FirstNotLRAL"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "check-fallback-renders-as-ascii",
+      "input": "_tcp.\u05d0\u05d1\u05d2.example.",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "045f74637009786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "ATTRLEAF",
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "bidi-check,ascii-fallback",
+            "ok": "_tcp.xn--4dbcd.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "fallback-implies-checkbidi",
+      "input": "_tcp.\u05d0\u05d1\u05d2.example.",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "045f74637009786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "ATTRLEAF",
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "ascii-fallback",
+            "ok": "_tcp.xn--4dbcd.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "check-digit-label-alongside-rtl-rejected",
+      "input": "123.\u05d0\u05d1\u05d2.example.",
+      "classes": "host",
+      "expect": {
+        "ok": {
+          "wireHex": "0331323309786e2d2d3464626364076578616d706c6500",
+          "classes": [
+            "LDH",
+            "ULABEL",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "err": {
+              "kind": "ErrCrossLabelBidi",
+              "labelIndex": 0,
+              "rule": "BidiRule1FirstNotLRAL"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "empty-domain",
+      "input": ".",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "00",
+          "classes": [],
+          "displayFormOpts": {
+            "flags": "bidi-check",
+            "ok": "."
+          }
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-fakea-emoji",
+      "input": "xn--ls8h.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayFormOpts": {
+            "flags": "",
+            "classes": "+laxulabel",
+            "ok": "💩.example"
+          }
+        }
+      }
+    },
+    {
+      "name": "bad-escape-trailing-backslash",
+      "input": "foo\\",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "bad-escape-truncated-ddd",
+      "input": "foo\\1",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "bad-escape-numeric-out-of-range",
+      "input": "foo\\999.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "bad-escape-mid-ddd-non-digit",
+      "input": "foo\\1ab.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "bad-escape-non-numeric-multi-byte-too-large",
+      "input": "foo\\€.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrBadEscape",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "escape-non-numeric-multi-byte-in-range",
+      "input": "foo\\§.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "04666f6fa7076578616d706c6500",
+          "classes": [
+            "OCTET",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "u-label-leading-hyphen-rejected",
+      "input": "-α.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "u-label-trailing-hyphen-rejected",
+      "input": "α-.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "u-label-leading-combining-mark-rejected",
+      "input": "\u0300abc.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "LeadingCombiningMark",
+          "codepoint": 768
+        }
+      }
+    },
+    {
+      "name": "u-label-hy34-rejected",
+      "input": "хn----7sbahcidia5fd3ae5rh.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "a-label-decoded-hy34-rejected",
+      "input": "xn--n----7sbahcidia5fd3ae5rh-kyt.example",
+      "classes": "idn",
+      "flags": "alabel-check",
+      "expect": {
+        "err": {
+          "kind": "ErrAceInvalid",
+          "labelIndex": 0,
+          "reason": "DecodedInvalid",
+          "innerReason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "mapwidth-creates-hy34-nonascii-rejected",
+      "input": "ａｂ－－αβ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "mapwidth-creates-leading-hyphen-nonascii-rejected",
+      "input": "－αβγ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "mapwidth-creates-trailing-hyphen-nonascii-rejected",
+      "input": "αβγ－.example",
+      "classes": "all",
+      "flags": "alabel-check,map-width",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "HyphenViolation"
+        }
+      }
+    },
+    {
+      "name": "zwnj-at-label-end-rejected",
+      "input": "\u0628\u200c.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "ContextRule",
+          "codepoint": 8204
+        }
+      }
+    },
+    {
+      "name": "escape-mixed-with-non-ascii-rejected",
+      "input": "\\Aα.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrUnpresentableLabel",
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "lone-dot-lax-renders-as-dot",
+      "input": ".",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "00",
+          "classes": [],
+          "displayForm": ".",
+          "displayFormLax": ".",
+          "displayFormAscii": "."
+        }
+      }
+    },
+    {
+      "name": "u-label-rejected-with-ldh-only-classes",
+      "input": "münchen.example",
+      "classes": "ldh",
+      "expect": {
+        "err": {
+          "kind": "ErrFormNotAllowed",
+          "labelIndex": 0,
+          "form": "ULABEL"
+        }
+      }
+    },
+    {
+      "name": "unassigned-codepoint-rejected",
+      "input": "԰.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "DisallowedCodepoint",
+          "codepoint": 1328
+        }
+      }
+    },
+    {
+      "name": "mapwidth-collapses-to-four-char-ldh",
+      "input": "ａｂｃｄ.example",
+      "classes": "all",
+      "flags": "alabel-check,map-case,map-width",
+      "expect": {
+        "ok": {
+          "wireHex": "0461626364076578616d706c6500",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "uppercase-ace-body-classified-alabel",
+      "input": "xn--MNCHEN-3ya.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d4d4e4348454e2d337961076578616d706c6500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "maputs46-folds-reiwa-era",
+      "input": "㋿.example",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d6e6e7174316c076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "maputs46-folds-circled-cjk-ideograph",
+      "input": "㊀.example",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "ok": {
+          "wireHex": "07786e2d2d346771076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "default-rejects-reiwa-era-without-maputs46",
+      "input": "㋿.example",
+      "classes": "all",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 13055,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "maputs46-rejects-dropped-u3297",
+      "input": "㊗.example",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 12951,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "maputs46-rejects-dropped-u3299",
+      "input": "㊙.example",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 12953,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "emojiok-rejects-squared-kanji-emoji-1F238",
+      "input": "🈸.example",
+      "classes": "all",
+      "flags": "+emoji-ok",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 127544,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "emojiok-admits-non-mapped-emoji",
+      "input": "😀.example",
+      "classes": "all",
+      "flags": "+emoji-ok",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d65323868076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "maputs46-rejects-squared-kanji-emoji-even-with-emoji-ok",
+      "input": "🈸.example",
+      "classes": "all",
+      "flags": "+map-uts46,+emoji-ok",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "reason": "DisallowedCodepoint",
+          "codepoint": 127544,
+          "labelIndex": 0
+        }
+      }
+    },
+    {
+      "name": "maputs46-implies-mapcase-mapwidth",
+      "input": "ＥＸＡＭＰＬＥ.com",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "ok": {
+          "wireHex": "076578616d706c6503636f6d00",
+          "classes": [
+            "LDH",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "maputs46-implies-mapdots-fullwidth-period",
+      "input": "㋿．example",
+      "classes": "all",
+      "flags": "+map-uts46",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d6e6e7174316c076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ]
+        }
+      }
+    },
+    {
+      "name": "strict-set-uppercase-ascii-prefix-tolerated",
+      "input": "xn--Mller-kva.de",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0d786e2d2d4d6c6c65722d6b766102646500",
+          "classes": [
+            "ALABEL",
+            "LDH"
+          ],
+          "displayForm": "müller.de",
+          "displayFormOpts": {
+            "flags": "default",
+            "classes": "-fakea,-laxulabel",
+            "ok": "müller.de"
+          }
+        }
+      }
+    },
+    {
+      "name": "strict-set-rejects-uppercase-in-decoded-ulabel",
+      "input": "xn--mller-2pa.de",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "0d786e2d2d6d6c6c65722d32706102646500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayForm": "xn--mller-2pa.de",
+          "displayFormOpts": {
+            "flags": "default",
+            "classes": "-fakea,-laxulabel",
+            "err": {
+              "kind": "ErrFormNotAllowed",
+              "labelIndex": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "strict-set-rejects-bad-punycode",
+      "input": "xn--z.example",
+      "classes": "all",
+      "expect": {
+        "ok": {
+          "wireHex": "05786e2d2d7a076578616d706c6500",
+          "classes": [
+            "FAKEA",
+            "LDH"
+          ],
+          "displayForm": "xn--z.example",
+          "displayFormOpts": {
+            "flags": "default",
+            "classes": "-fakea,-laxulabel",
+            "err": {
+              "kind": "ErrFormNotAllowed",
+              "labelIndex": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-bidi-rule1-violation",
+      "input": "0\u05d0\u05d1.example",
+      "classes": "all,+laxulabel",
+      "flags": "alabel-check,bidi-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0a786e2d2d302d30686364076578616d706c6500",
+          "classes": [
+            "LAXULABEL",
+            "LDH"
+          ],
+          "displayFormLax": "0\u05d0\u05d1.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-non-nfc",
+      "input": "a\u0301.example",
+      "classes": "all,+laxulabel",
+      "flags": "alabel-check,nfc-check",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d612d786262076578616d706c6500",
+          "classes": [
+            "LAXULABEL",
+            "LDH"
+          ],
+          "displayFormLax": "a\u0301.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-trailing-hyphen-on-u-label",
+      "input": "ä-.example",
+      "classes": "all,+laxulabel",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "09786e2d2d2d2d7a6661076578616d706c6500",
+          "classes": [
+            "LAXULABEL",
+            "LDH"
+          ],
+          "displayFormLax": "ä-.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-emoji-codepoint",
+      "input": "💩.example",
+      "classes": "all,+laxulabel",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "08786e2d2d6c733868076578616d706c6500",
+          "classes": [
+            "LAXULABEL",
+            "LDH"
+          ],
+          "displayFormLax": "💩.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-not-needed-for-clean-ulabel",
+      "input": "münchen.example",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0e786e2d2d6d6e6368656e2d337961076578616d706c6500",
+          "classes": [
+            "ULABEL",
+            "LDH"
+          ],
+          "displayForm": "münchen.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-admits-good-ldh-ascii-plus-invalid-unicode",
+      "input": "hello💩.example",
+      "classes": "all,+laxulabel",
+      "flags": "alabel-check",
+      "expect": {
+        "ok": {
+          "wireHex": "0f786e2d2d68656c6c6f2d6266313464076578616d706c6500",
+          "classes": [
+            "LAXULABEL",
+            "LDH"
+          ],
+          "displayFormLax": "hello💩.example"
+        }
+      }
+    },
+    {
+      "name": "laxulabel-not-rescued-when-non-ldh-ascii-mixed",
+      "input": "χν_foo.example.com",
+      "classes": "all",
+      "flags": "alabel-check",
+      "expect": {
+        "err": {
+          "kind": "ErrLabelInvalid",
+          "labelIndex": 0,
+          "reason": "DisallowedCodepoint",
+          "codepoint": 95
+        }
+      }
+    }
+  ]
+}

@@ -1,6 +1,10 @@
 # Changelog
 
+## 1.0.0.0
+
+First public release of `idna2008`.  See `README.md` for the
+feature list.
+
 ## 0.1.0.0
 
-Initial package skeleton.  No public API yet; subsequent releases
-land the implementation incrementally.
+- Deprecated, never completed, indepdently authored prototype.

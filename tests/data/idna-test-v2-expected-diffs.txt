@@ -1,0 +1,31 @@
+# Expected disagreements between strict IDNA2008 (this library) and UTS #46
+# Nontransitional, as exercised by the Unicode IdnaTestV2.txt vectors via
+# the `unicode-conformance` Cabal-flagged test-suite.
+#
+# Format: one entry per non-blank, non-comment line.  Fields are separated
+# by TAB characters.  The first field is the disposition; the second is
+# the source string from IdnaTestV2.txt (with `\uXXXX` escapes preserved
+# rather than decoded so the file is greppable); the third (optional)
+# field is a short free-form reason.
+#
+#     <disposition>  <source>  <reason>
+#
+# Dispositions:
+#
+#   skip   -- the vector is not run; the library is not expected to
+#             agree with the UTS #46 column for this input, and the
+#             disagreement isn't worth a finer-grained classification
+#             (e.g. UTS #46 applies a mapping we deliberately don't,
+#             producing an output we have no equivalent for).
+#
+#   xfail  -- the vector is run and is expected to disagree with the
+#             UTS #46 column.  If the library happens to agree, that's
+#             an "unexpected pass" worth investigating (probably means
+#             a recent fix or a tightening on the UTS #46 side).
+#
+# Entries are added as systematic UTS #46-vs-IDNA2008 differences
+# surface from running the harness.  Each should cite either the
+# §5892 disposition table, the UTS #46 deviation paragraph, or a
+# specific RFC 5891/5893 rule.
+
+# (no entries yet -- harness reports raw agreement on every vector)
