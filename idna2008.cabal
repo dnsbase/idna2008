@@ -44,6 +44,16 @@ build-type:     Simple
 tested-with: GHC == 9.10.3
            , GHC == 9.12.3
 
+-- The Unicode version the library's generated tables track.  This is
+-- the single source of truth: 'internal/tools/update' uses it as the
+-- default version to fetch the UCD inputs from, and the
+-- 'unicode-conformance' test suite uses it to fetch the matching
+-- IdnaTestV2.txt and IdnaMappingTable.txt files.  Bump this value
+-- when re-running 'internal/tools/update' against a new Unicode
+-- release.  The @x-@ prefix marks this as a custom Cabal field that
+-- the cabal tool ignores but other consumers can read.
+x-unicode-version: 17.0.0
+
 extra-doc-files:
     CHANGELOG.md
     README.md
@@ -85,10 +95,12 @@ library punycode-internal
 
 library
   import: all, deps
-  hs-source-dirs: src
+  hs-source-dirs: src internal
   build-depends:
       idna2008:punycode-internal
-  -- exposed-modules added when the public API surface lands.
+  exposed-modules:
+    Text.IDNA2008.Internal.Property
+    Text.IDNA2008.Internal.Property.Data
 
 -- RFC 3492 section 7.1 Punycode vectors, tested as raw codec
 -- round-trips through the internal Punycode module rather than
