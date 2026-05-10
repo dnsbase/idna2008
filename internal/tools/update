@@ -57,6 +57,15 @@ DERIVED_CORE_PROPERTIES_URL="${UCD_BASE}/DerivedCoreProperties.txt"
 DERIVED_NORM_PROPS_URL="${UCD_BASE}/DerivedNormalizationProps.txt"
 PROP_LIST_URL="${UCD_BASE}/PropList.txt"
 HANGUL_SYLLABLE_TYPE_URL="${UCD_BASE}/HangulSyllableType.txt"
+SCRIPTS_URL="${UCD_BASE}/Scripts.txt"
+DERIVED_JOINING_TYPE_URL="${UCD_BASE}/extracted/DerivedJoiningType.txt"
+DERIVED_COMBINING_CLASS_URL="${UCD_BASE}/extracted/DerivedCombiningClass.txt"
+DERIVED_BIDI_CLASS_URL="${UCD_BASE}/extracted/DerivedBidiClass.txt"
+
+# Emoji file: in 13.0+ it's part of the UCD bundle (Public/<ver>/ucd/emoji/);
+# in 12.x and earlier it lived in a separate Public/emoji/<MAJ.MIN>/ tree.
+EMOJI_UCD_URL="${UCD_BASE}/emoji/emoji-data.txt"
+EMOJI_LEGACY_URL="https://www.unicode.org/Public/emoji/%s/emoji-data.txt"
 
 #-----------------------------------------------------------------------
 # Compute concrete URLs and output paths.
@@ -71,6 +80,21 @@ dcp_url=$(printf     "$DERIVED_CORE_PROPERTIES_URL" "$VERSION")
 nfcprops_url=$(printf "$DERIVED_NORM_PROPS_URL"     "$VERSION")
 plist_url=$(printf   "$PROP_LIST_URL"               "$VERSION")
 hst_url=$(printf     "$HANGUL_SYLLABLE_TYPE_URL"    "$VERSION")
+scripts_url=$(printf "$SCRIPTS_URL"                 "$VERSION")
+jt_url=$(printf      "$DERIVED_JOINING_TYPE_URL"    "$VERSION")
+ccc_url=$(printf     "$DERIVED_COMBINING_CLASS_URL" "$VERSION")
+bidi_url=$(printf    "$DERIVED_BIDI_CLASS_URL"      "$VERSION")
+
+case "$VERSION" in
+    12.*|11.*|10.*|9.*|8.*|7.*|6.*)
+        # Pre-13: emoji files in the legacy Public/emoji/<MAJ.MIN>/ tree.
+        short_ver=$(echo "$VERSION" | cut -d. -f1,2)
+        emoji_url=$(printf "$EMOJI_LEGACY_URL" "$short_ver")
+        ;;
+    *)
+        emoji_url=$(printf "$EMOJI_UCD_URL" "$VERSION")
+        ;;
+esac
 
 #-----------------------------------------------------------------------
 # Fetch all sources to a scratch dir, then run each generator.
@@ -92,6 +116,11 @@ fetch "$dcp_url"       DerivedCoreProperties.txt
 fetch "$nfcprops_url"  DerivedNormalizationProps.txt
 fetch "$plist_url"     PropList.txt
 fetch "$hst_url"       HangulSyllableType.txt
+fetch "$scripts_url"   Scripts.txt
+fetch "$jt_url"        DerivedJoiningType.txt
+fetch "$ccc_url"       DerivedCombiningClass.txt
+fetch "$bidi_url"      DerivedBidiClass.txt
+fetch "$emoji_url"     emoji-data.txt
 
 # Derive the IDNA disposition CSV locally per RFC 5892, then feed
 # it into the existing CSV-to-Haskell generator.
@@ -123,6 +152,30 @@ run "${IDNA_DIR}/NFC/Data.hs" \
 run "${IDNA_DIR}/NFC/Tables/Data.hs" \
     "$PYTHON" "${SCRIPT_DIR}/genIdnaNFCTables.py" \
         "$VERSION" "$WORK/UnicodeData.txt" "$WORK/CompositionExclusions.txt"
+
+run "${IDNA_DIR}/Joining/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaJoining.py" \
+        "$VERSION" "$WORK/DerivedJoiningType.txt" "$WORK/DerivedCombiningClass.txt"
+
+run "${IDNA_DIR}/Script/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaScript.py" \
+        "$VERSION" "$WORK/Scripts.txt"
+
+run "${IDNA_DIR}/Width/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaWidth.py" \
+        "$VERSION" "$WORK/UnicodeData.txt"
+
+run "${IDNA_DIR}/Bidi/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaBidi.py" \
+        "$VERSION" "$WORK/DerivedBidiClass.txt"
+
+run "${IDNA_DIR}/Combining/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaCombining.py" \
+        "$VERSION" "$WORK/UnicodeData.txt"
+
+run "${IDNA_DIR}/Emoji/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaEmoji.py" \
+        "$VERSION" "$WORK/emoji-data.txt"
 
 echo
 echo "All auto-generated IDNA tables are now aligned with Unicode $VERSION."

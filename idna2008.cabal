@@ -99,12 +99,25 @@ library
   build-depends:
       idna2008:punycode-internal
   exposed-modules:
+    Text.IDNA2008.Internal.Bidi
+    Text.IDNA2008.Internal.Bidi.Data
+    Text.IDNA2008.Internal.Combining
+    Text.IDNA2008.Internal.Combining.Data
+    Text.IDNA2008.Internal.Emoji
+    Text.IDNA2008.Internal.Emoji.Data
+    Text.IDNA2008.Internal.Error
+    Text.IDNA2008.Internal.Joining
+    Text.IDNA2008.Internal.Joining.Data
     Text.IDNA2008.Internal.NFC
     Text.IDNA2008.Internal.NFC.Data
     Text.IDNA2008.Internal.NFC.Tables
     Text.IDNA2008.Internal.NFC.Tables.Data
     Text.IDNA2008.Internal.Property
     Text.IDNA2008.Internal.Property.Data
+    Text.IDNA2008.Internal.Script
+    Text.IDNA2008.Internal.Script.Data
+    Text.IDNA2008.Internal.Width
+    Text.IDNA2008.Internal.Width.Data
 
 -- RFC 3492 section 7.1 Punycode vectors, tested as raw codec
 -- round-trips through the internal Punycode module rather than
