@@ -52,6 +52,7 @@ PYTHON="${PYTHON:-python3}"
 UCD_BASE="https://www.unicode.org/Public/%s/ucd"
 
 UNICODE_DATA_URL="${UCD_BASE}/UnicodeData.txt"
+COMPOSITION_EXCLUSIONS_URL="${UCD_BASE}/CompositionExclusions.txt"
 DERIVED_CORE_PROPERTIES_URL="${UCD_BASE}/DerivedCoreProperties.txt"
 DERIVED_NORM_PROPS_URL="${UCD_BASE}/DerivedNormalizationProps.txt"
 PROP_LIST_URL="${UCD_BASE}/PropList.txt"
@@ -65,6 +66,7 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 IDNA_DIR="${SCRIPT_DIR}/../Text/IDNA2008/Internal"
 
 unidata_url=$(printf "$UNICODE_DATA_URL"            "$VERSION")
+compex_url=$(printf  "$COMPOSITION_EXCLUSIONS_URL"  "$VERSION")
 dcp_url=$(printf     "$DERIVED_CORE_PROPERTIES_URL" "$VERSION")
 nfcprops_url=$(printf "$DERIVED_NORM_PROPS_URL"     "$VERSION")
 plist_url=$(printf   "$PROP_LIST_URL"               "$VERSION")
@@ -85,6 +87,7 @@ fetch() {
 }
 
 fetch "$unidata_url"   UnicodeData.txt
+fetch "$compex_url"    CompositionExclusions.txt
 fetch "$dcp_url"       DerivedCoreProperties.txt
 fetch "$nfcprops_url"  DerivedNormalizationProps.txt
 fetch "$plist_url"     PropList.txt
@@ -112,6 +115,14 @@ run() {
 run "${IDNA_DIR}/Property/Data.hs" \
     "$PYTHON" "${SCRIPT_DIR}/genIdnaProperty.py" \
         "$VERSION" "$WORK/idna-tables-properties.csv"
+
+run "${IDNA_DIR}/NFC/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaNFC.py" \
+        "$VERSION" "$WORK/DerivedNormalizationProps.txt"
+
+run "${IDNA_DIR}/NFC/Tables/Data.hs" \
+    "$PYTHON" "${SCRIPT_DIR}/genIdnaNFCTables.py" \
+        "$VERSION" "$WORK/UnicodeData.txt" "$WORK/CompositionExclusions.txt"
 
 echo
 echo "All auto-generated IDNA tables are now aligned with Unicode $VERSION."

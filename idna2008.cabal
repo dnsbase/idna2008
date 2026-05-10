@@ -99,6 +99,10 @@ library
   build-depends:
       idna2008:punycode-internal
   exposed-modules:
+    Text.IDNA2008.Internal.NFC
+    Text.IDNA2008.Internal.NFC.Data
+    Text.IDNA2008.Internal.NFC.Tables
+    Text.IDNA2008.Internal.NFC.Tables.Data
     Text.IDNA2008.Internal.Property
     Text.IDNA2008.Internal.Property.Data
 
