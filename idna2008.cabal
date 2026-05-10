@@ -65,8 +65,43 @@ common deps
     , primitive
     , text
 
+-- Narrowly-scoped private sublibrary holding only
+-- 'Text.IDNA2008.Internal.Punycode'.  Its sole reason for
+-- existing is to let the @punycode@ test suite (which exercises
+-- the codec against RFC 3492 section 7.1 vectors as raw
+-- round-trips) import the module directly without forcing the
+-- entire @Text.IDNA2008.Internal.*@ surface into either the
+-- public Hackage API or Haddock's view.  We keep the sublibrary
+-- as small as possible because @cabal haddock@ has known issues
+-- generating documentation when private sublibraries carry a
+-- large module set; the rest of the Internal.* modules continue
+-- to live as @other-modules@ of the main library.
+library punycode-internal
+  import: all, deps
+  visibility: private
+  hs-source-dirs: internal-punycode
+  exposed-modules:
+    Text.IDNA2008.Internal.Punycode
+
 library
   import: all, deps
   hs-source-dirs: src
   build-depends:
+      idna2008:punycode-internal
   -- exposed-modules added when the public API surface lands.
+
+-- RFC 3492 section 7.1 Punycode vectors, tested as raw codec
+-- round-trips through the internal Punycode module rather than
+-- through the full IDNA pipeline.  The vectors live as Haskell
+-- code (not in @tests/vectors.json@) because they exercise a
+-- module whose API is not part of the public IDNA library
+-- surface.
+test-suite punycode
+  import: all, deps
+  type: exitcode-stdio-1.0
+  hs-source-dirs: tests
+  main-is: punycode.hs
+  build-depends:
+      idna2008:punycode-internal
+    , tasty >=1.5 && <1.6
+    , tasty-hunit >=0.10 && <0.11
