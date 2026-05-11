@@ -73,6 +73,7 @@ common deps
       base >= 4.18 && < 5
     , bytestring
     , primitive
+    , template-haskell
     , text
 
 -- Narrowly-scoped private sublibrary holding only
@@ -108,17 +109,24 @@ library
     Text.IDNA2008.Internal.Emoji
     Text.IDNA2008.Internal.Emoji.Data
     Text.IDNA2008.Internal.Error
+    Text.IDNA2008.Internal.Flags
     Text.IDNA2008.Internal.Joining
     Text.IDNA2008.Internal.Joining.Data
+    Text.IDNA2008.Internal.LabelForm
+    Text.IDNA2008.Internal.LabelFormSet
+    Text.IDNA2008.Internal.LabelInfo
     Text.IDNA2008.Internal.NFC
     Text.IDNA2008.Internal.NFC.Data
     Text.IDNA2008.Internal.NFC.Tables
     Text.IDNA2008.Internal.NFC.Tables.Data
+    Text.IDNA2008.Internal.Parse
     Text.IDNA2008.Internal.Property
     Text.IDNA2008.Internal.Property.Data
     Text.IDNA2008.Internal.Ranges
     Text.IDNA2008.Internal.Script
     Text.IDNA2008.Internal.Script.Data
+    Text.IDNA2008.Internal.Tokens
+    Text.IDNA2008.Internal.UTS46
     Text.IDNA2008.Internal.Width
     Text.IDNA2008.Internal.Width.Data
 
