@@ -1484,6 +1484,21 @@
       }
     },
     {
+      "name": "map-width-fullwidth-digits-and-letters",
+      "input": "０-９Ａ-Ｚａ-ｚ.example",
+      "classes": "all",
+      "flags": "+map-width",
+      "expect": {
+	"ok": {
+	  "wireHex": "09302d39412d5a612d7a076578616d706c6500",
+	  "classes": [
+	    "LDH",
+	    "LDH"
+	  ]
+	}
+      }
+    },
+    {
       "name": "mapwidth-halfwidth-katakana",
       "input": "ｱｲｳ.example",
       "classes": "all",
