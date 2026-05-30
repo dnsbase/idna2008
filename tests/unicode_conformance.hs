@@ -502,7 +502,7 @@ data Outcome
     | OCpDisagreement !IdnaError
       -- ^ Library rejection traces back to a codepoint UTS \#46
       --   would have preprocessed away (or accepted) but strict
-      --   IDNA2008 can't.  Covers three flavours:
+      --   IDNA2008 can't.  Three cases:
       --
       --   * 'DisallowedCodepoint' (direct or via 'DecodedInvalid')
       --     -- the NV8\/XV8 cases the file header explicitly tells

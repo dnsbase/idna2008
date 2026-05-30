@@ -754,7 +754,7 @@
     },
     {
       "name": "a3-middle-dot-l-l",
-      "input": "l·l.example",
+      "input": "l\u00b7l.example",
       "classes": "all",
       "expect": {
         "ok": {
@@ -768,7 +768,7 @@
     },
     {
       "name": "a3-middle-dot-leading",
-      "input": "·l.example",
+      "input": "\u00b7l.example",
       "classes": "all",
       "expect": {
         "err": {
@@ -781,7 +781,7 @@
     },
     {
       "name": "a3-middle-dot-trailing",
-      "input": "l·.example",
+      "input": "l\u00b7.example",
       "classes": "all",
       "expect": {
         "err": {
@@ -794,7 +794,7 @@
     },
     {
       "name": "a3-middle-dot-bad-neighbours",
-      "input": "x·y.example",
+      "input": "x\u00b7y.example",
       "classes": "all",
       "expect": {
         "err": {
@@ -901,7 +901,7 @@
     },
     {
       "name": "a7-katakana-middle-dot-with-hiragana",
-      "input": "あ・あ.example",
+      "input": "あ\u30fbあ.example",
       "classes": "all",
       "expect": {
         "ok": {
@@ -915,7 +915,7 @@
     },
     {
       "name": "a7-katakana-middle-dot-with-han",
-      "input": "一・一.example",
+      "input": "一\u30fb一.example",
       "classes": "all",
       "expect": {
         "ok": {
@@ -929,7 +929,7 @@
     },
     {
       "name": "a7-katakana-middle-dot-alone",
-      "input": "・.example",
+      "input": "\u30fb.example",
       "classes": "all",
       "expect": {
         "err": {
@@ -942,7 +942,7 @@
     },
     {
       "name": "a7-katakana-middle-dot-without-hkh",
-      "input": "a・b.example",
+      "input": "a\u30fbb.example",
       "classes": "all",
       "expect": {
         "err": {
